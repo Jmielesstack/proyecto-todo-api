@@ -2,18 +2,18 @@ version: '3.8'
 
 services:
   # Servicio de Base de Datos
-  mongodb:
-    image: mongo:6
-    container_name: todo-mongodb
+  postgres:
+    image: postgres:16
+    container_name: todo-postgres
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin123
-      MONGO_INITDB_DATABASE: tododb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tododb
     ports:
-      - "27017:27017"
+      - "5432:5432"
     volumes:
-      - mongodb_data:/data/db
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - todo-network
 
@@ -24,30 +24,11 @@ services:
     restart: always
     environment:
       - PORT=3000
-      - MONGODB_URI=mongodb://admin:admin123@mongodb:27017/tododb?authSource=admin
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/tododb
     ports:
       - "3000:3000"
     depends_on:
-      - mongodb
-    networks:
-      - todo-network
-    volumes:
-      - ./src:/app/src  # Solo para desarrollo (hot reload)
-    command: npm run dev  # Para desarrollo con nodemon
-
-  # (Opcional) Interfaz de usuario para MongoDB
-  mongo-express:
-    image: mongo-express:latest
-    container_name: todo-mongo-express
-    restart: always
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
-      ME_CONFIG_MONGODB_SERVER: mongodb
-    ports:
-      - "8081:8081"
-    depends_on:
-      - mongodb
+      - postgres
     networks:
       - todo-network
 
@@ -56,4 +37,4 @@ networks:
     driver: bridge
 
 volumes:
-  mongodb_data:
+  postgres_data:
