@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const { Pool } = require('pg');
 const cors = require('cors');
 require('dotenv').config();
@@ -9,6 +10,9 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Frontend estático
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 // Pool de conexiones a PostgreSQL
 const pool = new Pool({

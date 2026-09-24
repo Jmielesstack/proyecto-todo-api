@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo API</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>Mis Tareas</h1>
+      <p class="app-subtitle">
+        <span id="api-status" class="badge badge--loading">Conectando…</span>
+        <span id="api-url" class="api-url"></span>
+      </p>
+    </header>
+
+    <form id="task-form" class="task-form" autocomplete="off">
+      <div class="task-form__row">
+        <input
+          id="task-title"
+          class="task-form__input"
+          type="text"
+          placeholder="Nueva tarea…"
+          maxlength="200"
+          required
+        />
+        <input
+          id="task-description"
+          class="task-form__input"
+          type="text"
+          placeholder="Descripción (opcional)"
+          maxlength="500"
+        />
+        <button class="btn btn--primary" type="submit">Agregar</button>
+      </div>
+    </form>
+
+    <section aria-live="polite">
+      <ul id="task-list" class="task-list"></ul>
+      <p id="empty-state" class="empty-state">No hay tareas todavía. ¡Agregá la primera!</p>
+      <p id="error-banner" class="error-banner" hidden></p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
